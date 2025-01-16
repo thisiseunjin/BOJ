@@ -12,6 +12,7 @@ public class Main {
     static int[] dx = {-1, 0, 1, 0};
     static int[] dy = {0, 1, 0, -1};
     static int maxDepth = 0;
+    static int minDepth = 101;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -26,6 +27,7 @@ public class Main {
             for (int j = 0; j < N; j++) {
                 map[i][j] = Integer.parseInt(st.nextToken());
                 maxDepth = Math.max(map[i][j], maxDepth);
+                minDepth = Math.min(map[i][j], minDepth);
             }
         }
 
@@ -36,11 +38,11 @@ public class Main {
                 for (int j = 0; j < N; j++) {
                     if (isVisited[i][j]) continue;
                     if (map[i][j] <= depth) continue;
+                    isVisited[i][j] = true;
+                    DFS(depth, i, j);
                     cnt++;
-                    dfs(i, j, depth);
                 }
             }
-//            System.out.println(depth + " : " + cnt);
             result = Math.max(cnt, result);
         }
 
@@ -49,30 +51,19 @@ public class Main {
 
     }
 
-    public static boolean dfs(int x, int y, int depth) {
-        Stack<int[]> stack = new Stack<>();
+    public static void DFS(int depth, int x, int y) {
 
-        //방문 체크 하고 넣는다!
-        isVisited[x][y] = true;
-        int cnt = 0;
-        stack.push(new int[]{x, y});
+        for (int d = 0; d < 4; d++) {
+            int nx = x + dx[d];
+            int ny = y + dy[d];
 
-        while (!stack.isEmpty()) {
-            cnt++;
-            int[] cur = stack.pop();
-            for (int i = 0; i < 4; i++) {
-                int nx = cur[0] + dx[i];
-                int ny = cur[1] + dy[i];
+            if (!inRange(nx, ny)) continue;
+            if (isVisited[nx][ny]) continue;
+            if (map[nx][ny] <= depth) continue;
 
-                if (!inRange(nx, ny)) continue;
-                if (isVisited[nx][ny]) continue;
-                if (map[nx][ny] <= depth) continue;
-                isVisited[nx][ny] = true;
-                stack.push(new int[]{nx, ny});
-            }
+            isVisited[nx][ny] = true;
+            DFS(depth, nx, ny);
         }
-
-        return cnt > 0;
     }
 
     public static boolean inRange(int x, int y) {
