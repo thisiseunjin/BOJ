@@ -11,7 +11,6 @@ public class Main {
     static int[] info = new int[100_000];
     static boolean[] isSelected;
     static boolean[] isDone;
-    static ArrayList<Integer> list;
     static int cnt = 0;
     static StringBuilder sb = new StringBuilder();
 
@@ -36,7 +35,6 @@ public class Main {
 
             for (int i = 0; i < N; i++) {
                 if (isSelected[i]) continue;
-                list = new ArrayList<>();
                 dfs(i);
             }
             sb.append(N - cnt).append("\n");
@@ -51,7 +49,6 @@ public class Main {
         int next = info[v];
 
         if (!isSelected[next]) {
-            list.add(v);
             dfs(next);
         } else if (!isDone[next]) {
             for (int i = next; i != v; i = info[i]) {
