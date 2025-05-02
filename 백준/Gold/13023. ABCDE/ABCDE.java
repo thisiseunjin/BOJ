@@ -36,11 +36,11 @@ public class Main {
         }
 
         for (int i = 0; i < N; i++) {
-            if (isPossible) break;
-            if (isSelected[i]) continue;
             isSelected[i] = true;
             dfs(i, 0);
             isSelected[i] = false;
+            if (isPossible) break;
+            
         }
 
         System.out.println(isPossible ? 1 : 0);
@@ -60,13 +60,5 @@ public class Main {
             dfs(next, depth + 1);
             isSelected[next] = false;
         }
-    }
-
-    public static boolean isAllSelected() {
-        for (boolean bool : isSelected) {
-            if (!bool) return false;
-        }
-
-        return true;
     }
 }
