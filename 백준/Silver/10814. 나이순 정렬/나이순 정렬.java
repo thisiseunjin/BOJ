@@ -20,9 +20,12 @@ public class Main {
 
         Arrays.sort(people);
 
+        StringBuilder sb = new StringBuilder();
         for(Person p : people){
-            System.out.println(p);
+            sb.append(p.toString()).append("\n");
         }
+        
+        System.out.println(sb);
     }
 
     public static class Person implements Comparable<Person>{
