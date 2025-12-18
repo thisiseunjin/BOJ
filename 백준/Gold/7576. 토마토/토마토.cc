@@ -12,12 +12,15 @@ bool isAllDone();
 bool inRange(int, int);
 int dx[4] = {-1,0,1,0};
 int dy[4] = {0,1,0,-1};
-
+int leftCnt = 0;
 int main() {
     scanf("%d %d", &m,&n);
     for(int i=0;i<n;i++){
         for(int j=0;j<m;j++){
             scanf("%d", &map[i][j]);
+            if(map[i][j]!=-1){
+                leftCnt++;
+            }
         }
     }
     
@@ -31,12 +34,11 @@ int main() {
     }
     date = bfs();
 
-    if(isAllDone()){
+    if(leftCnt==0){
         printf("%d", date);
     }else{
         printf("-1");
     }
-
 }
 
 int bfs(){
@@ -47,6 +49,7 @@ int bfs(){
         int y = q.front().second;
         date = max(date, map[x][y]);
         q.pop();
+        leftCnt--;
         
         for(int i=0;i<4;i++){
             int nx = x+dx[i];
