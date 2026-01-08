@@ -16,7 +16,7 @@ class Main {
         N = Integer.parseInt(st.nextToken());
         K = Integer.parseInt(st.nextToken());
 
-        for(int i=0;i<4;i++){
+        for(int i=0;i<N;i++){
             st = new StringTokenizer(br.readLine());
             int n = Integer.parseInt(st.nextToken());
             int gold = Integer.parseInt(st.nextToken());
@@ -39,6 +39,11 @@ class Main {
 
         int rank = 1;
         int sum=1;
+
+        if(list.get(0)[0]==K){
+            System.out.println(1);
+            System.exit(0);
+        }
         
         for(int i=1;i<list.size();i++){
             int[] tmp = list.get(i);
@@ -54,7 +59,7 @@ class Main {
                 sum++;
             }else{
                 rank += sum;
-                sum=0;
+                sum=1;
             }
 
               if(num==K){
