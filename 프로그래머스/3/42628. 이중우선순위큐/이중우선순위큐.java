@@ -1,40 +1,31 @@
-import java.io.*;
 import java.util.*;
 
 class Solution {
-    ArrayList<Integer> list = new ArrayList<>();
-    StringTokenizer st;
-    
+    PriorityQueue<Integer> minQ = new PriorityQueue<>();
+    PriorityQueue<Integer> maxQ = new PriorityQueue<>(Collections.reverseOrder());
     public int[] solution(String[] operations) {
-        for(String operation:operations){
-            st = new StringTokenizer(operation);
-            char op = st.nextToken().charAt(0);
-            int n = Integer.parseInt(st.nextToken());
-            
-            if(op=='I'){
-                list.add(n);
-                continue;
+        int[]  result = new int[2];
+        
+        for(String operation : operations){
+            String[] op =  operation.split(" ");
+            if("I".equals(op[0])){
+                // 삽입
+                minQ.add(Integer.parseInt(op[1]));
+                maxQ.add(Integer.parseInt(op[1]));
+            }else if("D".equals(op[0]) && "1".equals(op[1])&& !maxQ.isEmpty()){
+                // 최댓값을 삭제
+                int max = maxQ.poll();
+                minQ.remove(Integer.valueOf(max));
+            }else if("D".equals(op[0]) && "-1".equals(op[1])&& !minQ.isEmpty()){
+                // 최소값을 삭제
+                int min = minQ.poll();
+                maxQ.remove(Integer.valueOf(min));
             }
-            
-            if(list.size()==0){
-                continue;
-            }
-            Collections.sort(list);
-            if(n==1){
-                //최댓값을 삭제한다.
-                list.remove(list.size()-1);
-            }else{
-                 list.remove(0);
-            }
-            
-            
         }
         
-        if(list.size()==0){
-            return new int[]{0,0};
-        }else{
-             Collections.sort(list);
-            return new int[]{list.get(list.size()-1), list.get(0)};
-        }
+        result[0] = maxQ.isEmpty()?0:maxQ.peek();
+        result[1] = minQ.isEmpty()?0:minQ.peek();
+        
+        return result;
     }
 }
